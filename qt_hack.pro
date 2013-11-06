@@ -16,15 +16,17 @@ SOURCES += main.cpp\
         pixmapwidget.cpp \
     myglwidget.cpp \
     qtlogo.cpp \
-    transparentwidget.cpp
+    transparentwidget.cpp \
+    movablewidget.cpp
 
 HEADERS  += pixmapwidget.h \
     myglwidget.h \
     qtlogo.h \
-    transparentwidget.h
+    transparentwidget.h \
+    movablewidget.h
 
 *g++* {
-    QMAKE_CXXFLAGS += -std=c++0x
+    QMAKE_CXXFLAGS += -std=gnu++0x
 }
 
 win32* {

@@ -34,7 +34,7 @@ protected:
 
 private:
     QPixmap pix;
-    QVBoxLayout *layout;
+    QStackedLayout *mainLayout;
     QGLWidget *glWidget;
     QList<QWidget*> transparentWidgets;
 };

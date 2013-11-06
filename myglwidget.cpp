@@ -11,7 +11,6 @@
 #define GL_MULTISAMPLE  0x809D
 #endif
 
-//! [0]
 MyGLWidget::MyGLWidget(QWidget *parent)
     : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
 {
@@ -22,29 +21,25 @@ MyGLWidget::MyGLWidget(QWidget *parent)
 
     qtGreen = QColor::fromCmykF(0.40, 0.0, 1.0, 0.0);
     qtPurple = QColor::fromCmykF(0.39, 0.39, 0.0, 0.0);
-}
-//! [0]
 
-//! [1]
+    setAttribute(Qt::WA_TransparentForMouseEvents);
+    setMouseTracking(false);
+    setFocusPolicy(Qt::NoFocus);
+}
+
 MyGLWidget::~MyGLWidget()
 {
 }
-//! [1]
 
-//! [2]
 QSize MyGLWidget::minimumSizeHint() const
 {
     return QSize(50, 50);
 }
-//! [2]
 
-//! [3]
 QSize MyGLWidget::sizeHint() const
-//! [3] //! [4]
 {
     return QSize(400, 400);
 }
-//! [4]
 
 static void qNormalizeAngle(int &angle)
 {
@@ -54,7 +49,6 @@ static void qNormalizeAngle(int &angle)
         angle -= 360 * 16;
 }
 
-//! [5]
 void MyGLWidget::setXRotation(int angle)
 {
     qNormalizeAngle(angle);
@@ -64,7 +58,6 @@ void MyGLWidget::setXRotation(int angle)
         updateGL();
     }
 }
-//! [5]
 
 void MyGLWidget::setYRotation(int angle)
 {
@@ -86,7 +79,6 @@ void MyGLWidget::setZRotation(int angle)
     }
 }
 
-//! [6]
 void MyGLWidget::initializeGL()
 {
     qglClearColor(qtPurple.dark());
@@ -103,9 +95,7 @@ void MyGLWidget::initializeGL()
     static GLfloat lightPosition[4] = { 0.5, 5.0, 7.0, 1.0 };
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
-//! [6]
 
-//! [7]
 void MyGLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -116,9 +106,7 @@ void MyGLWidget::paintGL()
     glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
     logo->draw();
 }
-//! [7]
 
-//! [8]
 void MyGLWidget::resizeGL(int width, int height)
 {
     int side = qMin(width, height);
@@ -133,33 +121,18 @@ void MyGLWidget::resizeGL(int width, int height)
 #endif
     glMatrixMode(GL_MODELVIEW);
 }
-//! [8]
 
-//! [9]
 void MyGLWidget::mousePress(QPoint pos)
 {
     lastPos = pos;
 }
-//! [9]
 
-//! [10]
 void MyGLWidget::mouseMove(QPoint pos)
 {
     int dx = pos.x() - lastPos.x();
     int dy = pos.y() - lastPos.y();
 
-//    if (event->buttons() & Qt::LeftButton) {
-        setXRotation(xRot + 8 * dy);
-        setYRotation(yRot + 8 * dx);
-//    } else if (event->buttons() & Qt::RightButton) {
-//        setXRotation(xRot + 8 * dy);
-//        setZRotation(zRot + 8 * dx);
-//    }
+    setXRotation(xRot + 8 * dy);
+    setYRotation(yRot + 8 * dx);
     lastPos = pos;
 }
-
-void MyGLWidget::mouseRelease(QPoint ) {
-//    emit mouseReleased();
-}
-
-//! [10]
