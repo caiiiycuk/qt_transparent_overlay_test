@@ -1,1 +1,5 @@
 *.user
+moc_*
+*.o
+qt_hack
+Makefile
