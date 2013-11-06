@@ -20,10 +20,6 @@ PixmapWidget::~PixmapWidget()
 void PixmapWidget::addTransparentWidget(QWidget *newWidget) {
     mainLayout->addWidget(newWidget);
     transparentWidgets << newWidget;
-
-    qDebug() << newWidget->styleSheet();
-//    newWidget->setStyleSheet(newWidget->styleSheet());
-//    newWidget->hide();
 }
 
 void PixmapWidget::setGlWidget(QGLWidget *newGlWidget) {
@@ -38,7 +34,7 @@ void PixmapWidget::updatePixmap() {
         return;
     }
 
-    pix = QPixmap::fromImage(glWidget->grabFrameBuffer());
+    pix = glWidget->grabFrameBuffer();
     glWidget->hide();
     update();
 }
@@ -47,7 +43,7 @@ void PixmapWidget::paintEvent(QPaintEvent *event)
 {
     {
         QPainter painter(this);
-        painter.drawPixmap(0, 0, pix);
+        painter.drawImage(0, 0, pix);
         painter.drawText(50, 50, "PixmapWidget");
     }
     QWidget::paintEvent(event);
@@ -79,8 +75,6 @@ void PixmapWidget::mouseReleaseEvent(QMouseEvent *event) {
 
     foreach(const auto widget, transparentWidgets) {
         widget->show();
-        qDebug() << widget->size();
-//        mainLayout->setCurrentWidget(widget);
     }
     emit mouseReleased(event->pos());
     releaseMouse();

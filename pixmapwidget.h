@@ -33,7 +33,7 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *);
 
 private:
-    QPixmap pix;
+    QImage pix;
     QStackedLayout *mainLayout;
     QGLWidget *glWidget;
     QList<QWidget*> transparentWidgets;
