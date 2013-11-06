@@ -2,7 +2,6 @@
 #include <QDebug>
 
 #include "pixmapwidget.h"
-#include "ui_pixmapwidget.h"
 
 PixmapWidget::PixmapWidget(QWidget *parent) :
     QWidget(parent), glWidget(0)
