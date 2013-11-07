@@ -34,14 +34,16 @@ protected:
     void paintGL();
     void resizeGL(int width, int height);
 
+    void setVisible(bool visible);
+
 private:
     QtLogo *logo;
     int xRot;
     int yRot;
     int zRot;
     QPoint lastPos;
-    QColor qtGreen;
-    QColor qtPurple;
+    QColor qtOne;
+    QColor qtTwo;
 };
 
 

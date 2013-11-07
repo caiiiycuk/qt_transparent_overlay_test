@@ -19,8 +19,8 @@ MyGLWidget::MyGLWidget(QWidget *parent)
     yRot = 0;
     zRot = 0;
 
-    qtGreen = QColor::fromCmykF(0.40, 0.0, 1.0, 0.0);
-    qtPurple = QColor::fromCmykF(0.39, 0.39, 0.0, 0.0);
+    qtOne = QColor::fromRgb(255, 255, 255);
+    qtTwo = QColor::fromRgb(0, 0, 0);
 
     setAttribute(Qt::WA_TransparentForMouseEvents);
     setMouseTracking(false);
@@ -81,29 +81,30 @@ void MyGLWidget::setZRotation(int angle)
 
 void MyGLWidget::initializeGL()
 {
-    qglClearColor(qtPurple.dark());
-
     logo = new QtLogo(this, 64);
-    logo->setColor(qtGreen.dark());
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    glEnable(GL_MULTISAMPLE);
+    //glEnable(GL_MULTISAMPLE);
     static GLfloat lightPosition[4] = { 0.5, 5.0, 7.0, 1.0 };
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
 
 void MyGLWidget::paintGL()
 {
+    qglClearColor(qtOne);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     glTranslatef(0.0, 0.0, -10.0);
     glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
     glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
+
+    logo->setColor(qtTwo);
     logo->draw();
 }
 
@@ -120,6 +121,21 @@ void MyGLWidget::resizeGL(int width, int height)
     glOrtho(-0.5, +0.5, -0.5, +0.5, 4.0, 15.0);
 #endif
     glMatrixMode(GL_MODELVIEW);
+}
+
+void MyGLWidget::setVisible(bool visible)
+{
+    if (visible) {
+        qtOne.setRed(255 - qtOne.red());
+        qtOne.setGreen(255 - qtOne.green());
+        qtOne.setBlue(255 - qtOne.blue());
+
+        qtTwo.setRed(255 - qtTwo.red());
+        qtTwo.setGreen(255 - qtTwo.green());
+        qtTwo.setBlue(255 - qtTwo.blue());
+    }
+
+    QGLWidget::setVisible(visible);
 }
 
 void MyGLWidget::mousePress(QPoint pos)
