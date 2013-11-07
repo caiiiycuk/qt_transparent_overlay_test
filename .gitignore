@@ -2,4 +2,7 @@
 moc_*
 *.o
 qt_hack
+qt_hack.exe
 Makefile
+Makefile.*
+object_script.qt_hack.*

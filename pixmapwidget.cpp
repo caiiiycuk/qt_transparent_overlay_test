@@ -36,17 +36,15 @@ void PixmapWidget::updatePixmap() {
 
     pix = glWidget->grabFrameBuffer();
     glWidget->hide();
-    update();
+    repaint();
 }
 
 void PixmapWidget::paintEvent(QPaintEvent *event)
 {
-    {
-        QPainter painter(this);
-        painter.drawImage(0, 0, pix);
-        painter.drawText(50, 50, "PixmapWidget");
-    }
     QWidget::paintEvent(event);
+    QPainter painter(this);
+    painter.drawImage(0, 0, pix);
+    painter.drawText(50, 50, "PixmapWidget");
 }
 
 
@@ -71,11 +69,14 @@ void PixmapWidget::mouseMoveEvent(QMouseEvent *event)
 }
 
 void PixmapWidget::mouseReleaseEvent(QMouseEvent *event) {
+    emit mouseReleased(event->pos());
+    releaseMouse();
+
+    glWidget->repaint();
+
     updatePixmap();
 
     foreach(const auto widget, transparentWidgets) {
         widget->show();
     }
-    emit mouseReleased(event->pos());
-    releaseMouse();
 }
